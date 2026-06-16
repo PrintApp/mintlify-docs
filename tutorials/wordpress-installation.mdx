@@ -1,0 +1,30 @@
+---
+title: "WordPress / WooCommerce installation"
+description: "Install the Filecheck plugin, add your keys, and gate add-to-cart on file validation."
+---
+
+<Note>
+  Want to see it working first? Try the [live WordPress demo store](https://demos.wp.filecheck.io/), then install it on your own shop below.
+</Note>
+
+<Steps>
+  <Step title="Install the plugin">
+    In **WP Admin → Plugins → Add New**, upload the Filecheck plugin ZIP (or search for it in the directory), then click **Activate**.
+  </Step>
+  <Step title="Add your keys">
+    Go to **WooCommerce → Settings → Filecheck** and enter your **publishable key**, **secret key**, and optional **agent ID** from the [dashboard](https://admin.filecheck.io). Save.
+  </Step>
+  <Step title="Choose a default workflow">
+    Pick a default **Workflow** for the store. This is the rule files are checked against. See [Workflows](/concepts/workflows).
+  </Step>
+  <Step title="Enable Filecheck on a product">
+    Edit a product, open the **Filecheck** panel, tick **Require an upload**, and optionally override the workflow or presentation (inline vs dialog) for that product.
+  </Step>
+  <Step title="Test the gate">
+    Open the product page. The **Add to cart** button stays disabled until an uploaded file passes. Upload a test file, watch it validate, and confirm the button enables. The validated `jobId` is attached to the order.
+  </Step>
+</Steps>
+
+<Tip>
+  Server-side, the plugin blocks add-to-cart when a required `jobId` is missing, and stores the job on the order. See the [WooCommerce integration reference](/integrations/woocommerce) for the hooks and the post-purchase file download.
+</Tip>

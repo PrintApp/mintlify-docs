@@ -1,0 +1,27 @@
+---
+title: "Shopify installation"
+description: "The Filecheck Shopify app is coming soon."
+---
+
+<Note>
+  The Filecheck Shopify app is launching soon. In the meantime, you can add Filecheck to a Shopify store with the [Element and REST API](/tutorials/api-integration).
+</Note>
+
+When the app is available, this guide will cover:
+
+<Steps>
+  <Step title="Install the app">
+    Install Filecheck from the Shopify App Store and enter your keys in its embedded admin.
+  </Step>
+  <Step title="Add the block to your product template">
+    Add the Filecheck app block to your product page and set the `workflowId`, or use a per-product `filecheck.workflowId` metafield.
+  </Step>
+  <Step title="Gate checkout">
+    The block disables **Add to cart** until a file passes and writes the `jobId` to the cart attributes.
+  </Step>
+  <Step title="Verify after purchase">
+    On the `orders/paid` webhook, fetch the result with your secret key. See [Verify jobs](/server/verify-jobs).
+  </Step>
+</Steps>
+
+For the planned data flow, see the [Shopify integration reference](/integrations/shopify).

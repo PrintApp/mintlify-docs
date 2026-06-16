@@ -1,0 +1,27 @@
+---
+title: "OpenCart installation"
+description: "Install the Filecheck module and require validated uploads on product pages."
+---
+
+<Note>
+  Want to see it working first? Try the [live OpenCart demo store](https://demos.oc.filecheck.io/), then install it on your own shop below.
+</Note>
+
+<Steps>
+  <Step title="Install the module">
+    Upload and install the Filecheck extension from **Extensions → Installer**, then enable it under **Extensions → Modules**.
+  </Step>
+  <Step title="Add your keys">
+    In the module settings, enter your **publishable key**, **secret key**, optional **agent ID**, and a default **workflowId** from the [dashboard](https://admin.filecheck.io).
+  </Step>
+  <Step title="Enable per product">
+    On a product, enable Filecheck and optionally override the workflow or connector. The Element renders on the product page and gates **Add to cart** until a file passes.
+  </Step>
+  <Step title="Verify after purchase">
+    Use your secret key server-side to fetch the job and download the validated file. See [Verify jobs](/server/verify-jobs).
+  </Step>
+</Steps>
+
+<Tip>
+  OpenCart and PrestaShop share the same front-end snippet. See the [OpenCart &amp; PrestaShop reference](/integrations/opencart-prestashop).
+</Tip>

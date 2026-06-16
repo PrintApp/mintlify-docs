@@ -1,0 +1,45 @@
+---
+title: "Custom API / SDK integration"
+description: "Add Filecheck to any stack by embedding the Element or calling the REST API."
+---
+
+No plugin? Add Filecheck to any platform in two parts: gate the upload on the client, and verify the job on your server.
+
+<Steps>
+  <Step title="Get your keys and a workflow">
+    From the [dashboard](https://admin.filecheck.io), grab a **publishable key**, a **secret key**, and a **workflowId**.
+  </Step>
+  <Step title="Embed the Element (client)">
+    Drop in the Element, mount it, and gate your submit button on `canProceed`.
+
+    ```html
+    <script src="https://cdn.filecheck.io/element/v1/filecheck.js"></script>
+    <div id="fc-slot"></div>
+    <script>
+      const fc = Filecheck('pk_live_…');
+      const intake = fc.elements.create('intake', { workflowId: 'wf_…' });
+      intake.mount('#fc-slot');
+      intake.on('status', ({ canProceed, jobId }) => {
+        submitBtn.disabled = !canProceed;
+        hiddenJobIdInput.value = jobId ?? '';
+      });
+    </script>
+    ```
+
+    See [Installation](/element/installation) for async loading and sizing.
+  </Step>
+  <Step title="Verify the job (server)">
+    Before fulfilling, verify the submitted `jobId` with your secret key.
+
+    ```bash
+    curl https://api.filecheck.io/jobs/{jobId} \
+      -H "Authorization: Bearer sk_live_…"
+    ```
+
+    See [Verify jobs](/server/verify-jobs) and the full [API reference](/api-reference/introduction).
+  </Step>
+</Steps>
+
+<Note>
+  Prefer a fully headless flow with no widget? Submit files directly with `POST /jobs` and poll or use webhooks. See [Headless &amp; custom platforms](/integrations/headless).
+</Note>

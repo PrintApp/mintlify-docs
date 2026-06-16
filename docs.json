@@ -68,6 +68,32 @@
         ]
       },
       {
+        "tab": "Tutorials",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "tutorials/overview"
+            ]
+          },
+          {
+            "group": "Install a plugin",
+            "pages": [
+              "tutorials/wordpress-installation",
+              "tutorials/prestashop-installation",
+              "tutorials/opencart-installation",
+              "tutorials/shopify-installation"
+            ]
+          },
+          {
+            "group": "Custom integration",
+            "pages": [
+              "tutorials/api-integration"
+            ]
+          }
+        ]
+      },
+      {
         "tab": "API reference",
         "openapi": "openapi.json",
         "groups": [

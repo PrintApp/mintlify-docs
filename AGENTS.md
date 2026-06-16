@@ -6,6 +6,7 @@
 - Built on [Mintlify](https://mintlify.com). Pages are MDX with YAML frontmatter; configuration is in `docs.json`.
 - Run locally with `mint dev` (install with `npm i -g mint`).
 - Source of truth for the Element/API surface is the engineering integration reference. Keep code samples consistent with it.
+- `openapi.json` is generated, not hand-edited. Regenerate it with `node scripts/build-openapi.mjs`, which reads the request schemas from the sibling `filecheck-api` repo. Re-run it whenever the API changes.
 
 ## Terminology
 
