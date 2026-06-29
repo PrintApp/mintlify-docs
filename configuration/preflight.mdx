@@ -43,39 +43,65 @@ The fastest start is to clone a pre-loaded profile (PDF/X-4 Compliant, Print-Rea
   </Step>
 </Steps>
 
-## The checks (PDF profile)
+## Every check: target + action
 
-PDF checks are organized into sections. Each section shows how many checks are active.
-
-| Section | What it covers |
-| --- | --- |
-| **Page Checks** | Page count, trim/page size, orientation, bleed |
-| **Color** | Color space (RGB/CMYK), total ink density, spot colors |
-| **Fonts & Text** | Font embedding, minimum text size |
-| **Images** | Effective resolution (DPI), compression, color mode |
-| **PDF Structure** | PDF version, encryption, layers, annotations |
-
-A **Raster profile** uses a single image-focused section instead — resolution, dimensions, color mode, and aspect ratio.
-
-## Each check: target + action
-
-Toggle a check on to reveal its settings. Every check has two parts:
+Toggle a check on to reveal its settings. Each check has two parts:
 
 <CardGroup cols={2}>
   <Card title="Target" icon="bullseye">
-    The acceptable value or range — for example bleed **Required 3 mm**, **Tolerance 0.2 mm**, on which **Sides** (All / Top / Right / Bottom / Left).
+    The acceptable value or range — for example bleed **Required 3 mm**, **Tolerance 0.2 mm**, on which **Sides**. The configurable settings differ per check; they're listed on each section page below.
   </Card>
-  <Card title="Action (severity)" icon="bolt">
-    What happens when the file misses the target:
-    <br />**Reject** — block the file.
-    <br />**Warn** — let it proceed, flagged.
-    <br />**Info / Fix** — note it, or auto-correct downstream.
+  <Card title="Action" icon="bolt">
+    What happens when the file misses the target. Four actions, described next.
   </Card>
 </CardGroup>
 
+### The four actions
+
+Every check's action is one of:
+
+| Action | What happens | Customer can proceed? |
+| --- | --- | --- |
+| **Reject** | The file is blocked at intake. The customer must fix and re-upload. | No |
+| **Warn** | The issue is flagged but the file may continue. | Yes |
+| **Auto-fix** | Filecheck corrects the issue automatically in the workflow's [processing](/configuration/workflows) stage. | Yes |
+| **Off** | The check is disabled (not evaluated). | — |
+
 <Note>
-  The action is what links a profile to [remediation](/concepts/remediation). A failing check set to **Reject** blocks the file at intake; **Warn** lets it through with a warning; findings marked for auto-fix are corrected later, in the workflow's processing stage.
+  Only checks marked **Auto-fix** are repaired, and only those whose code supports it. The action shown on each section page is the **default** for that check — you can change it per profile. Auto-fix runs during [processing](/configuration/workflows), not at intake. See [Remediation](/concepts/remediation).
 </Note>
+
+### How a finding is shown to the customer
+
+When a check fails, the customer sees a plain-language **issue**, a manual **fix**, and — if the check auto-fixes — what Filecheck will do for them. The section pages quote these messages. Values in `{curly braces}` are filled in at runtime (for example `{target.required_mm}` becomes `3`).
+
+## Check reference, by section
+
+PDF checks are grouped into five sections; raster profiles use one. Each page below documents every check in that section — its action, whether it auto-fixes, its settings, and the message the customer sees.
+
+<CardGroup cols={2}>
+  <Card title="Page Checks" icon="file" href="/configuration/preflight/page-checks">
+    Page count, size, orientation, bleed, trim, safety margins, rotation, layout.
+  </Card>
+  <Card title="Colors" icon="droplet" href="/configuration/preflight/color">
+    Color mode, ink coverage, spot colors, ICC/output intent, rich black, overprint.
+  </Card>
+  <Card title="Fonts, Text & Strokes" icon="font" href="/configuration/preflight/fonts-text">
+    Font embedding, subsetting, minimum sizes, stroke widths, outlining, safe zones.
+  </Card>
+  <Card title="Images" icon="image" href="/configuration/preflight/images">
+    Effective resolution, compression, color space, bit depth (images inside PDFs).
+  </Card>
+  <Card title="PDF Structure" icon="layer-group" href="/configuration/preflight/pdf-structure">
+    Transparency, layers, annotations, scripts, encryption, versions, PDF/X & PDF/A.
+  </Card>
+  <Card title="Page Rules" icon="list" href="/configuration/preflight/page-rules">
+    Per-page overrides — different checks for covers vs. interior pages.
+  </Card>
+  <Card title="Raster Checks" icon="images" href="/configuration/preflight/raster">
+    The full check set for raster (image) profiles.
+  </Card>
+</CardGroup>
 
 <Card title="Next: use this profile in a Rule" icon="arrow-right" href="/configuration/upload-rules">
   Assign the profile to a Rule so it runs against uploads at intake.

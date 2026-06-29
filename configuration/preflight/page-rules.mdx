@@ -1,0 +1,47 @@
+---
+title: "Page Rules"
+description: "Per-page overrides in a PDF preflight profile — apply different checks to specific pages, like covers vs. interior."
+---
+
+**Page Rules** let one profile apply *different* checks to *different* pages. Unlike the other sections, it has no fixed list of checks. Instead it holds an ordered list of **entries**, each targeting a page range and overriding chosen checks for those pages.
+
+This is what you reach for when a single document mixes requirements — a book whose cover needs heavier bleed than its interior, or a multi-page job where only page 1 must be CMYK.
+
+## How an entry works
+
+Each entry has two parts:
+
+<CardGroup cols={2}>
+  <Card title="Page range" icon="hashtag">
+    Which pages the entry applies to. Examples: `1` (first page), `2-10` (a span), `1,3,5` (specific pages), `2-n` (page 2 to the end).
+  </Card>
+  <Card title="Overrides" icon="pen-to-square">
+    The checks to change for those pages — each picked from any section (Page Checks, Colors, Fonts, Images, Structure) with a new **target** and/or **action**.
+  </Card>
+</CardGroup>
+
+An override only changes the checks you name; every other check keeps the profile's base setting for those pages. Pages not matched by any entry use the base profile throughout.
+
+## Configure page rules
+
+<Steps>
+  <Step title="Open the Page Rules section">
+    In the profile editor, open **Page Rules** and **add an entry**.
+  </Step>
+  <Step title="Set the page range">
+    Enter the pages this entry targets — for example `1` for a cover.
+  </Step>
+  <Step title="Add overrides">
+    Choose the checks to change for those pages and set their new target or action. For instance, raise **Bleed Lines** to 5 mm on the cover while the interior stays at 3 mm.
+  </Step>
+  <Step title="Order entries">
+    Entries apply in order; arrange them so the most specific ranges resolve the way you intend.
+  </Step>
+  <Step title="Save">
+    Save the profile. The overrides apply only to their matched pages.
+  </Step>
+</Steps>
+
+<Note>
+  Page Rules override checks defined in the other sections — start by configuring the base profile, then add page-specific exceptions here.
+</Note>

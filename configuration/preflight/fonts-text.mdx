@@ -1,0 +1,86 @@
+---
+title: "Fonts, Text & Strokes"
+description: "Font and text checks in a PDF preflight profile — embedding, subsetting, minimum sizes, stroke widths, outlining, and safe zones."
+---
+
+The **Fonts, Text & Strokes** section protects text integrity. Missing or unembedded fonts are the number-one preflight failure, because text that isn't carried in the file can't be guaranteed to print correctly. Each check lists its **action**, **settings**, and the messages the customer sees. See the [profile overview](/configuration/preflight) for how actions work.
+
+## Fonts Embedded
+
+Require all fonts to be fully embedded in the PDF.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Reject |
+| **Settings** | None |
+| **Issue** | Your file uses fonts that aren't included in it, so we can't guarantee your text prints correctly. |
+| **Fix** | Re-export your file with all fonts embedded, or convert your text to outlines. |
+
+## Font Subsetting
+
+Encourage smaller files by embedding only the characters actually used.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Auto-fix |
+| **Settings** | None |
+| **Issue** | Your file embeds full font files, which makes it larger than it needs to be. |
+| **Fix** | Re-export with font subsetting enabled. |
+| **Auto-fix** | We'll subset the fonts automatically before printing. |
+
+## Minimum Font Size
+
+The smallest font size allowed, to keep text readable in print.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Warn |
+| **Settings** | Minimum (pt, default 5) |
+| **Issue** | Some texts are too small (`{actual.min_pt}` pt) and may not be readable when printed. The minimum for this product is `{target.pt}` pt. |
+| **Fix** | Increase the size of any important small text and re-upload. |
+
+## Minimum Stroke Width
+
+The thinnest line width that will reliably reproduce on press.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Auto-fix |
+| **Settings** | Minimum (pt, default 0.25) |
+| **Issue** | Your file has very thin lines that may not print visibly. Lines should be at least `{target.pt}` pt thick. |
+| **Fix** | Increase thin lines to at least `{target.pt}` pt and re-export. |
+| **Auto-fix** | We'll thicken the hairline strokes automatically before printing. |
+
+## Allowed Font Types
+
+Which font formats are permitted.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Reject |
+| **Settings** | Disallowed formats (Type 1, Type 3, TrueType, OpenType, CID Type 0, CID Type 2) |
+| **Issue** | Your file uses a font format that isn't supported for printing. |
+| **Fix** | Convert your fonts to TrueType or OpenType and re-export. |
+
+## Text Outlines Required
+
+Require all text to be converted to outlines (curves) before printing.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Auto-fix |
+| **Settings** | None |
+| **Issue** | This product needs all text converted to outlines (curves) before printing. |
+| **Fix** | Convert all text to outlines (curves) and re-export. |
+| **Auto-fix** | We'll convert your text to outlines automatically before printing. |
+
+## Text Safe Zone
+
+The minimum distance live text must stay from the trim edge.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Reject |
+| **Settings** | Safe zone (pt, default ~8.5 ≈ 3 mm) |
+| **Issue** | Some text is too close to the cut edge and may be trimmed off. Keep it at least `{target.safe_zone_pt}` pt inside the trim line. |
+| **Fix** | Move text further from the edges and re-upload. |

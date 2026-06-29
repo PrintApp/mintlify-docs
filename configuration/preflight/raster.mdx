@@ -1,0 +1,137 @@
+---
+title: "Raster Checks"
+description: "The full check set for a Raster preflight profile — for standalone image uploads like JPEG, PNG, and TIFF."
+---
+
+A **Raster profile** checks standalone image uploads (JPEG, PNG, TIFF, WebP) — not images embedded inside a PDF, which are covered by the PDF [Images](/configuration/preflight/images) section. Raster checks focus on whether the image is big enough, the right shape, and in a print-ready color mode. Many can auto-fix using AI and image transforms. Each check lists its **action**, **settings**, and the messages the customer sees; see the [profile overview](/configuration/preflight) for how actions work.
+
+## Effective Resolution
+
+The minimum resolution at the target print size, with optional AI upscaling to meet it. Effective DPI = pixel size ÷ target print size.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Reject (can auto-fix) |
+| **Settings** | Minimum (dpi, default 300), Print width (mm), Print height (mm) |
+| **Issue** | Your image won't be sharp at the required print size. It works out to `{actual.effective_dpi}` DPI, but we need at least `{target.min_dpi}` DPI. |
+| **Fix** | Upload a higher-resolution image so it reaches at least `{target.min_dpi}` DPI at print size. |
+| **Auto-fix** | We'll AI-enhance your image to the required resolution automatically before printing. |
+
+## Minimum Pixel Size
+
+The smallest acceptable dimensions in pixels. Auto-fix uses AI to upscale smaller images.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Auto-fix |
+| **Settings** | Min width (px), Min height (px) |
+| **Issue** | Your image is smaller than required. You uploaded `{actual.width}` × `{actual.height}` pixels, but we need at least `{target.min_width}` × `{target.min_height}` pixels. |
+| **Fix** | Upload a higher-resolution image, at least `{target.min_width}` × `{target.min_height}` pixels. |
+| **Auto-fix** | We'll enhance your image to the required size automatically before printing. |
+
+## Maximum Pixel Size
+
+Flag images larger than needed. Auto-fix reduces oversized dimensions.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Warn (can auto-fix) |
+| **Settings** | Max width (px), Max height (px) |
+| **Issue** | Your image is larger than needed (`{actual.width}` × `{actual.height}` pixels), which may slow processing without improving print quality. |
+| **Fix** | Resize your image down and re-upload. |
+| **Auto-fix** | We'll resize your image down automatically before printing. |
+
+## Color Mode
+
+Which color modes are accepted (e.g. CMYK, Grayscale, RGB).
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Auto-fix |
+| **Settings** | Allowed (CMYK / Grayscale / RGB / Lab / Indexed) |
+| **Issue** | Your image is in `{actual.colorspace}` color mode, which isn't suitable for this product — we require `{target.allowed}`. |
+| **Fix** | Convert your image to `{target.allowed}` color mode and re-upload. |
+| **Auto-fix** | We'll convert your image to a print-ready color mode automatically before printing. |
+
+## Bit Depth
+
+The minimum color bit depth required to avoid banding.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Auto-fix |
+| **Settings** | Minimum (1 / 4 / 8 / 16 bit, default 8) |
+| **Issue** | Your image has low color depth, which can cause banding. Use `{target.min}`-bit or higher. |
+| **Fix** | Re-save your image at `{target.min}`-bit or higher and re-upload. |
+| **Auto-fix** | We'll increase the color depth automatically before printing. |
+
+## Transparency
+
+Allow a transparent background, or flatten it to a solid color.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Auto-fix |
+| **Settings** | Allow transparency (toggle) |
+| **Issue** | Your image has a transparent background. |
+| **Fix** | Flatten the transparent background and re-upload. |
+| **Auto-fix** | We'll flatten the transparency automatically before printing. |
+
+## Background Removal
+
+Automatically remove the background from the uploaded image.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Auto-fix |
+| **Settings** | None |
+| **Issue** | This product requires an image without a background, but your image appears to have one. |
+| **Fix** | Remove the background from your image and re-upload. |
+| **Auto-fix** | We'll attempt to remove the background automatically before printing. |
+
+## Maximum File Size
+
+The largest file customers may upload.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Reject |
+| **Settings** | Max size (MB, default 50) |
+| **Issue** | Your image file is too large. The limit for this product is `{target.max_mb}` MB. |
+| **Fix** | Reduce the file size and try uploading again. |
+
+## ICC Profile Required
+
+Require an embedded color profile to keep colors consistent on press.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Auto-fix |
+| **Settings** | Expected profile (any ICC profile, or a specific one) |
+| **Issue** | Your image doesn't include the required `{target.expected_profile_name}` color profile, so colors may shift when printed. |
+| **Fix** | Embed the correct color profile when saving your image and re-upload. |
+| **Auto-fix** | We'll embed the expected color profile automatically before printing. |
+
+## Aspect Ratio
+
+Restrict image proportions. Auto-fix pads or crops the image to the required ratio.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Auto-fix |
+| **Settings** | Ratio, Tolerance |
+| **Issue** | Your image isn't the right aspect ratio (`{target.ratio}`) for this product. |
+| **Fix** | Resize your image to `{target.ratio}` and re-upload. |
+| **Auto-fix** | We'll resize your image to the correct shape automatically before printing. |
+
+## Total Ink Coverage
+
+Limit total ink coverage (TAC) to prevent print defects.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Off (can auto-fix) |
+| **Settings** | Max TAC (%, default 300), Convert to profile (ICC) |
+| **Issue** | Your image has too much ink in some areas (`{actual.max_percent}`%), which can cause print defects. The limit is `{target.max_percent}`%. |
+| **Fix** | Reduce the total ink coverage and re-export. |
+| **Auto-fix** | We'll reduce the ink coverage automatically before printing. |

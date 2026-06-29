@@ -1,0 +1,63 @@
+---
+title: "Images"
+description: "Image checks in a PDF preflight profile — effective resolution, compression, color space, and bit depth of images placed inside the PDF."
+---
+
+The **Images** section checks raster images *placed inside a PDF* (not standalone image uploads — those use a [Raster profile](/configuration/preflight/raster)). Effective resolution is measured at the image's placed size, so a high-megapixel photo scaled up on the page can still fail. Each check lists its **action**, **settings**, and the messages the customer sees. See the [profile overview](/configuration/preflight) for how actions work.
+
+## Minimum Resolution
+
+The lowest acceptable effective resolution (DPI) at print size.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Warn |
+| **Settings** | Minimum (dpi, default 150) |
+| **Issue** | One or more images are too low-resolution (`{actual.min}` DPI) and will look blurry in print. The minimum is `{target.effective}` DPI at print size. |
+| **Fix** | Replace the low-resolution images with higher-resolution versions and re-upload. |
+
+## Maximum Resolution
+
+Flag images that are unnecessarily high-resolution, which bloat the file without improving print.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Auto-fix |
+| **Settings** | Warn above (dpi, default 600) |
+| **Issue** | Some images have higher resolution than needed (`{actual.max}` DPI), which makes your file larger without improving print quality. |
+| **Fix** | Downsample the oversized images and re-upload. |
+| **Auto-fix** | We'll downsample the oversized images automatically before printing. |
+
+## Image Color Mode
+
+Which color spaces are allowed for placed images. To convert image colors, use **Colors → Document Color Mode** with "Convert all" (dedicated image auto-fix here is coming soon).
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Warn |
+| **Settings** | Allowed (CMYK / Grayscale / RGB) |
+| **Issue** | One or more images are in `{actual.colorspaces}` color space, but we require images to be in `{target.allowed}` for this product. |
+| **Fix** | Convert the images to `{target.allowed}` and re-upload. |
+
+## Image Compression
+
+Which image compression formats are supported.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Warn |
+| **Settings** | Disallowed (JPEG, JPEG 2000, Flate/Zip, LZW, CCITT, JBIG2, Uncompressed) |
+| **Issue** | Your file contains images saved with a compression format we don't support. |
+| **Fix** | Re-save the images with a supported compression format and re-upload. |
+| **Auto-fix** | We'll re-encode the images with supported compression automatically before printing. |
+
+## Bit Depth
+
+The minimum color bit depth required for images, to avoid banding.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Reject |
+| **Settings** | Minimum (1 / 2 / 4 / 8 / 16 bit, default 8) |
+| **Issue** | One or more images have too low a color depth, which can cause banding. Use `{target.min}`-bit or higher. |
+| **Fix** | Re-save your images at a higher bit depth and re-upload. |

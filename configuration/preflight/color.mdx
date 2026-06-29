@@ -1,0 +1,87 @@
+---
+title: "Colors"
+description: "Color checks in a PDF preflight profile — color mode, ink coverage, spot colors, ICC/output intent, rich black, and overprint."
+---
+
+The **Colors** section governs how color is described in the PDF — the single biggest factor in whether print output matches what the customer saw on screen. Each check lists its **action**, **settings**, and the messages the customer sees. See the [profile overview](/configuration/preflight) for how actions work.
+
+## Document Color Mode
+
+Which color modes are allowed in the document (e.g. CMYK, Grayscale). During auto-fix, "Convert all" converts any color space — including images and text — to an allowed one.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Auto-fix |
+| **Settings** | Allowed (CMYK / Grayscale / RGB / Lab), Convert all, Preserve during auto-fix (ICC, DeviceN, NChannel, Separation, Separation All) |
+| **Issue** | Your file contains `{actual.found}` colors, but we require files to be in `{target.allowed}` color mode only. |
+| **Fix** | Convert your document to `{target.allowed}` and re-upload. |
+| **Auto-fix** | We'll convert your colors to `{target.allowed}` automatically before printing. |
+
+## Maximum Ink Coverage
+
+The total ink coverage (TAC) limit, to prevent smearing or slow drying on press.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Warn |
+| **Settings** | Maximum (%, default 300) |
+| **Issue** | Some areas use too much ink (`{actual.percent}`%), which can smear or dry slowly. The limit for this product is `{target.percent}`%. |
+| **Fix** | Reduce the density of your darkest areas and re-export. |
+
+## Spot Colors
+
+Whether spot (named) colors like Pantone are allowed, and how many.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Warn |
+| **Settings** | Max count, Whitelist (e.g. `PANTONE 186 C`) |
+| **Issue** | Your file uses `{actual.count}` spot colors (`{actual.names}`), but this product requires `{target.max_count}` spot colors maximum. |
+| **Fix** | Convert the excess spot colors to CMYK and re-upload. |
+
+## Output Intent
+
+Require an embedded output intent (color profile) that defines how the file's colors should print.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Warn (can auto-fix) |
+| **Settings** | Expected ICC profile |
+| **Issue** | Your file is missing a color profile that tells us how to reproduce its colors accurately. |
+| **Fix** | Re-export with an embedded output intent (color profile) and upload again. |
+| **Auto-fix** | We'll add the expected color profile automatically before printing. |
+
+## ICC Color Profile
+
+Control which embedded color profiles are accepted.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Warn (can auto-fix) |
+| **Settings** | Whitelist (profile names) |
+| **Issue** | Your file uses a color profile we don't support. |
+| **Fix** | Re-export using a standard print color profile and upload again. |
+| **Auto-fix** | We'll convert it to a standard print profile automatically before printing. |
+
+## Rich Black
+
+Detect black text or elements built from all four inks instead of pure black (K), which can look blurry on press.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Auto-fix |
+| **Settings** | Scope (Text only / All elements) |
+| **Issue** | Some black text is built from all four inks, which can look blurry on press. It should be 100% black (K) only. |
+| **Fix** | Set the affected black to 100% K only and re-export. |
+| **Auto-fix** | We'll set the affected black to pure K automatically before printing. |
+
+## Overprint Settings
+
+Detect overprint flags that may cause elements to disappear on press.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Warn |
+| **Settings** | Reject overprint on white (toggle) |
+| **Issue** | Your file has overprint settings that may cause some elements to disappear when printed. |
+| **Fix** | Check the overprint settings in your design app and re-export. |

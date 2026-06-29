@@ -81,7 +81,19 @@
             "group": "Admin guide",
             "pages": [
               "configuration/overview",
-              "configuration/preflight",
+              {
+                "group": "Preflight Profiles",
+                "pages": [
+                  "configuration/preflight",
+                  "configuration/preflight/page-checks",
+                  "configuration/preflight/color",
+                  "configuration/preflight/fonts-text",
+                  "configuration/preflight/images",
+                  "configuration/preflight/pdf-structure",
+                  "configuration/preflight/page-rules",
+                  "configuration/preflight/raster"
+                ]
+              },
               "configuration/upload-rules",
               "configuration/workflows",
               "configuration/jobs",

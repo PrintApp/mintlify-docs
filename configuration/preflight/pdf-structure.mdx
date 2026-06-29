@@ -1,0 +1,247 @@
+---
+title: "PDF Structure"
+description: "Structural and content-integrity checks in a PDF preflight profile — transparency, layers, interactivity, security, versions, and print standards."
+---
+
+The **PDF Structure** section checks how the document is built — features that can break, change, or block print output. Many are detect-and-strip checks: the issue is the *presence* of something (a script, a layer, an attachment) that shouldn't be in a print file. Each check lists its **action**, **settings**, and the messages the customer sees. See the [profile overview](/configuration/preflight) for how actions work.
+
+## Transparency & layers
+
+### Transparency
+
+Detects live transparency effects that may not survive flattening on press.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Warn (can auto-fix) |
+| **Settings** | None |
+| **Issue** | Your file uses live transparency, which can produce unexpected results on some presses. |
+| **Fix** | Flatten transparency and re-export your file. |
+| **Auto-fix** | We'll flatten the transparency automatically before printing. |
+
+### Layers
+
+Detects optional content layers (OCGs) that may affect how the file prints.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Warn (can auto-fix) |
+| **Settings** | None |
+| **Issue** | Your file contains layers, which can change how it prints. |
+| **Fix** | Flatten all layers and re-export your file. |
+| **Auto-fix** | We'll flatten the layers automatically before printing. |
+
+## Interactive & embedded content
+
+### Annotations
+
+Detects comments, highlights, and sticky notes.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Reject (can auto-fix) |
+| **Settings** | None |
+| **Issue** | Your file contains annotations such as comments, highlights, or sticky notes that must be removed before printing. |
+| **Fix** | Remove all annotations and re-export. |
+| **Auto-fix** | We'll remove the annotations automatically before printing. |
+
+### JavaScript
+
+Detects embedded JavaScript actions, which can cause security or processing issues.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Reject (can auto-fix) |
+| **Settings** | None |
+| **Issue** | Your file contains embedded scripts, which aren't supported for print. |
+| **Fix** | Re-export your file without JavaScript. |
+| **Auto-fix** | We'll strip the scripts automatically before printing. |
+
+### File Attachments
+
+Detects files embedded as attachments inside the PDF.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Reject (can auto-fix) |
+| **Settings** | None |
+| **Issue** | Your PDF has other files attached to it. |
+| **Fix** | Remove all attachments and re-export a clean PDF. |
+| **Auto-fix** | We'll remove the attachments automatically before printing. |
+
+### Interactive Forms
+
+Detects interactive AcroForm fields.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Auto-fix |
+| **Settings** | None |
+| **Issue** | Your file contains interactive form fields. |
+| **Fix** | Flatten the form fields and re-export. |
+| **Auto-fix** | We'll flatten the form fields automatically before printing. |
+
+### XFA Forms
+
+Detects XFA dynamic forms, which aren't supported in standard print workflows.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Auto-fix |
+| **Settings** | None |
+| **Issue** | Your file contains an XFA dynamic form, which isn't supported for printing. |
+| **Fix** | Convert the XFA form to a standard PDF and re-upload. |
+| **Auto-fix** | We'll convert it to a standard PDF automatically before printing. |
+
+### Digital Signatures
+
+Detects digital signatures that may prevent further processing.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Auto-fix |
+| **Settings** | None |
+| **Issue** | Your file contains a digital signature, and signed PDFs can't be processed for print. |
+| **Fix** | Remove the digital signature and re-upload. |
+| **Auto-fix** | We'll remove the signature automatically before printing. |
+
+### NeedAppearances Flag
+
+Detects form fields that may render blank due to a missing appearance stream.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Warn |
+| **Settings** | None |
+| **Issue** | Your file has a setting that may cause form fields to print blank. |
+| **Fix** | Flatten the form fields and re-export your file. |
+
+## Security
+
+### Encryption
+
+Detects password-protected or encrypted PDFs that block downstream processing.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Reject (can auto-fix) |
+| **Settings** | None |
+| **Issue** | Your file is password-protected or encrypted, so we can't process it. |
+| **Fix** | Remove the password protection and re-upload an unlocked PDF. |
+
+### PDF Permissions
+
+Checks that the PDF's security settings don't block printing or processing.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Reject |
+| **Settings** | Allow no-print restriction, Allow no-copy restriction, Allow no-modify restriction (toggles) |
+| **Issue** | Your file has security settings that prevent it from being printed. |
+| **Fix** | Remove the print restriction and re-upload. |
+
+## Standards & versions
+
+### PDF Version
+
+Sets the minimum and maximum accepted PDF version.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Warn (can auto-fix) |
+| **Settings** | Min, Max (1.3 – 2.0; default 1.4 – 1.7) |
+| **Issue** | Your file uses PDF version `{actual.version}`, which may not be fully supported. We recommend `{target.min}`–`{target.max}`. |
+| **Fix** | Re-export as PDF `{target.min}`–`{target.max}` and upload again. |
+| **Auto-fix** | We'll convert it to a supported PDF version automatically before printing. |
+
+### PDF/X Standard
+
+Checks conformance to a selected PDF/X print-production standard.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Warn |
+| **Settings** | Standard (PDF/X-1a, X-3, X-4, X-5, X-6; default X-4) |
+| **Issue** | This product needs a `{target.standard}` compliant file — a standard built for reliable print exchange. |
+| **Fix** | Re-export using the `{target.standard}` setting in your application. |
+
+### PDF/A
+
+Detects PDF/A archival-format files, which may restrict editing.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Reject |
+| **Settings** | None |
+| **Issue** | Your file is saved as PDF/A, which is made for archiving rather than printing. |
+| **Fix** | Re-export as a standard print PDF and upload again. |
+
+### PDF/VT
+
+Detects PDF/VT variable-data files.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Off |
+| **Settings** | None |
+| **Issue** | Your file uses the PDF/VT variable-data format, which isn't accepted for this product. |
+| **Fix** | Re-export as a standard print PDF and upload again. |
+
+### PDF/UA
+
+Detects PDF/UA accessibility-tagged files.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Off |
+| **Settings** | None |
+| **Issue** | Your file includes PDF/UA accessibility tags, which aren't accepted for this product. |
+| **Fix** | Re-export as a standard print PDF without accessibility tags and upload again. |
+
+### Tagged PDF
+
+Checks whether the PDF contains accessibility structure tags.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Off |
+| **Settings** | None |
+| **Issue** | Your file doesn't include accessibility structure tags, which are required for this product. |
+| **Fix** | Re-export your file with tagged PDF enabled and upload again. |
+
+## Integrity & origin
+
+### Structure Integrity
+
+Detects internal PDF structure errors reported by the parser.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Auto-fix |
+| **Settings** | Max allowed warnings (default 0) |
+| **Issue** | Your file appears to be damaged or has internal errors. |
+| **Fix** | Re-export a fresh PDF from your design application. |
+| **Auto-fix** | We'll repair the file structure automatically before printing. |
+
+### Linearized PDF
+
+Checks whether the PDF is structured for fast web delivery (linearized).
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Off |
+| **Settings** | None |
+| **Issue** | Your file isn't linearized — a structure required by this store for fast delivery. |
+| **Fix** | Re-export with fast web view (linearization) enabled. |
+| **Auto-fix** | We'll linearize the file automatically before printing. |
+
+### PDF Producer Filter
+
+Filters PDFs based on the application that created them.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Off |
+| **Settings** | Whitelist, Blacklist (producer names) |
+| **Issue** | Your file was created with an application that may not produce print-ready PDFs. |
+| **Fix** | Re-export using recommended print settings and upload again. |

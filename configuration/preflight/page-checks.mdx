@@ -1,0 +1,109 @@
+---
+title: "Page Checks"
+description: "Geometry checks in a PDF preflight profile — page count, size, orientation, bleed, trim, safety margins, rotation, and layout."
+---
+
+Page Checks (the **Geometry** section) cover the physical shape of the document — the most common reasons a print job is rejected. Each check lists its **action**, **settings**, and the messages the customer sees. See the [profile overview](/configuration/preflight) for how actions work.
+
+## Page Count
+
+How many pages the file must contain.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Reject |
+| **Settings** | Min, Max, or an exact list of allowed counts (e.g. `2, 4, 6`) |
+| **Issue** | Your file has the wrong number of pages. It has `{actual.pageCount}`, but this product requires `{target.min}`–`{target.max}`. |
+| **Fix** | Adjust your document so it has the required number of pages, then re-export and upload again. |
+
+## Page Size
+
+The allowed page dimensions.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Reject |
+| **Settings** | Allowed sizes (list of width × height in mm), Tolerance (mm) |
+| **Issue** | Your page size doesn't match what this product needs. Your file is `{width}` × `{height}` mm, but we need `{target.width}` × `{target.height}` mm. |
+| **Fix** | Resize your document to the correct dimensions and re-upload. |
+
+## Orientation
+
+Whether pages must be portrait, landscape, or square.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Off |
+| **Settings** | Allowed orientation (Portrait, Landscape, Square) |
+| **Issue** | Your page orientation doesn't match what's expected for this product. We expected `{target.allowed}` orientation. |
+| **Fix** | Rotate your document to the correct orientation and re-export. |
+
+## Bleed Lines
+
+The extra artwork beyond the cut line that stops white edges appearing after trimming.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Auto-fix |
+| **Settings** | Required (mm), Tolerance (mm), Fill (None / Mirror / Scale), Sides (All / Top / Right / Bottom / Left) |
+| **Issue** | Your file is missing or has incorrect bleed. We need `{target.required_mm}` mm on every side. |
+| **Fix** | Add at least `{target.required_mm}` mm of bleed on every side and re-export. |
+| **Auto-fix** | We'll add the missing bleed automatically before printing. |
+
+## Trimbox
+
+A defined trim area (TrimBox) marking the finished cut boundary.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Auto-fix |
+| **Settings** | Required (mm), Tolerance (mm), Sides |
+| **Issue** | Your file is missing or has an incorrect trim box. We need `{target.required_mm}` mm on every side. |
+| **Fix** | Add a correct trim box to your document and re-export. |
+| **Auto-fix** | We'll add the missing trim box automatically before printing. |
+
+## Safety Margin
+
+The minimum distance important content must stay from the trim edge.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Warn |
+| **Settings** | Minimum (mm) |
+| **Issue** | Some of your text or important content sits too close to the edge and may be trimmed off. Keep it at least `{target.min_mm}` mm from the cut line. |
+| **Fix** | Move important content away from the edges and re-upload. |
+
+## Page Rotation
+
+Which page-rotation angles are acceptable.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Auto-fix |
+| **Settings** | Allowed angles (0°, 90°, 180°, 270°) |
+| **Issue** | One or more pages are rotated unexpectedly. |
+| **Fix** | Straighten the rotated pages and re-export your file. |
+| **Auto-fix** | We'll straighten the rotated pages automatically before printing. |
+
+## Consistent Page Sizes
+
+All pages in the file must share the same dimensions.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Reject |
+| **Settings** | None |
+| **Issue** | Not all pages in your file are the same size. Every page needs to share the same dimensions. |
+| **Fix** | Make all pages the same size and re-export your file. |
+
+## Page Layout
+
+Whether pages should be single, spreads, or either.
+
+| Field | Detail |
+| :-- | :-- |
+| **Action** | Warn (can auto-fix) |
+| **Settings** | Mode (Single pages / Spreads / Either) |
+| **Issue** | Your pages are laid out as `{actual.layout}`, but this product expects `{target.mode}`. |
+| **Fix** | Re-arrange your pages as `{target.mode}` and re-export. |
+| **Auto-fix** | We'll re-arrange the layout automatically before printing. |
